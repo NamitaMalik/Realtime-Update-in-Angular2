@@ -1,0 +1,68 @@
+.items {
+    margin: 0 0 2em 0;
+    list-style-type: none;
+    padding: 0;
+    width: 24em;
+}
+
+.items li .text {
+    cursor: pointer;
+    position: relative;
+    left: 0;
+    background-color: #EEE;
+    margin: .5em;
+    padding: .3em .3em;
+    height: 2.6em;
+    border-radius: 4px;
+}
+
+.fLeft {
+    float: left;
+}
+
+.fRight {
+    float: right;
+}
+
+.fs4 {
+    font-size: 4em;
+}
+
+.box {
+    border-radius: 4px;
+    background-color: royalblue;
+}
+
+.mt14 {
+    margin-top: 14px;
+}
+
+.inner-addon {
+    position: relative;
+}
+
+.inner-addon .glyphicon {
+    position: absolute;
+    padding: 10px;
+    pointer-events: none;
+}
+
+.left-addon .glyphicon {
+    left: 0px;
+}
+
+.right-addon .glyphicon {
+    right: 0px;
+}
+
+.left-addon input {
+    padding-left: 30px;
+}
+
+.right-addon input {
+    padding-right: 30px;
+}
+
+body {
+    margin: 10px;
+}

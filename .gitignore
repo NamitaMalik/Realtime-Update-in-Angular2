@@ -1,0 +1,26 @@
+###########################
+#WebStorm Files
+###########################
+.idea/
+*ipr
+*.iml
+
+###########################
+#NPM Files
+###########################
+node_modules/
+npm-debug.log
+
+###########################
+#Angular2 Files
+###########################
+typings/
+app/*.js
+app/*.js.map
+app/common/service/*.js
+app/common/service/*.js.map
+app/book-show/*.js
+app/book-show/*.js.map
+app/cinema-window/*.js
+app/cinema-window/*.js.map
+
