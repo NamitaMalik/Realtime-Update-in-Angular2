@@ -1,68 +1,36 @@
-.items {
-    margin: 0 0 2em 0;
-    list-style-type: none;
-    padding: 0;
-    width: 24em;
+h1 {
+    color: #369;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 250%;
 }
-
-.items li .text {
-    cursor: pointer;
-    position: relative;
-    left: 0;
-    background-color: #EEE;
-    margin: .5em;
-    padding: .3em .3em;
-    height: 2.6em;
-    border-radius: 4px;
+h2, h3 {
+    color: #444;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: lighter;
 }
-
-.fLeft {
-    float: left;
-}
-
-.fRight {
-    float: right;
-}
-
-.fs4 {
-    font-size: 4em;
-}
-
-.box {
-    border-radius: 4px;
-    background-color: royalblue;
-}
-
-.mt14 {
-    margin-top: 14px;
-}
-
-.inner-addon {
-    position: relative;
-}
-
-.inner-addon .glyphicon {
-    position: absolute;
-    padding: 10px;
-    pointer-events: none;
-}
-
-.left-addon .glyphicon {
-    left: 0px;
-}
-
-.right-addon .glyphicon {
-    right: 0px;
-}
-
-.left-addon input {
-    padding-left: 30px;
-}
-
-.right-addon input {
-    padding-right: 30px;
-}
-
 body {
-    margin: 10px;
+    margin: 2em;
+}
+body, input[text], button {
+    color: #888;
+    font-family: Cambria, Georgia;
+}
+
+.li-style {
+    list-style: none;
+}
+
+.odd-color{
+    background-color: #ffffff;
+}
+
+.even-color{
+    background-color: #40e0de;
+}
+
+.last-color{
+    background-color: #7cfc00;
+}
+.box{
+    border-style: outset;
 }
