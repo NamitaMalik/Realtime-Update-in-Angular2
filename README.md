@@ -15,6 +15,6 @@ But, this small `app` had a serious `flaw` - even though, after each booking, nu
 
 See below:
 
-![services_blog.gif](https://raw.githubusercontent.com/NamitaMalik/Realtime-Update-in-Angular2/blob/master/assets/Services_Blog.gif)
+![services_blog.gif](https://raw.githubusercontent.com/NamitaMalik/Realtime-Update-in-Angular2/master/assets/Services_Blog.gif)
 
 
