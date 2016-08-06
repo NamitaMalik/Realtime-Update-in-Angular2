@@ -11,7 +11,7 @@ Let's get deeper into it by the simple example. In of my earlier [blogs](https:/
 4. `BookingService` - A service accessed by both `WindowComponent` and `BookShowComponent` to get the number of tickets available.
 
 Above components were then joined together to make a simple `app` where a user was able to book movie ticket and after each booking, the available ticket count would get updated.
-But, this small `app` had a serious `flaw` - even though, after each booking, number of tickets then available were getting updated, but one component would not know that the other component has updated the ticket till a booking request was made.
+But, this small `app` had a serious flaw - even though, after each booking, number of tickets then available were getting updated, but one component would not know that the other component has updated the ticket till a booking request was made.
 
 See below:
 
