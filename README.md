@@ -15,7 +15,7 @@ But, this small `app` had a serious `flaw` - even though, after each booking, nu
 
 See below:
 
-![services_blog.gif](https://raw.githubusercontent.com/NamitaMalik/Realtime-Update-in-Angular2/master/assets/Services_Blog.gif)
+![Services_Blog.gif](https://raw.githubusercontent.com/NamitaMalik/Realtime-Update-in-Angular2/master/assets/Services_Blog.gif)
 
 Did you notice the following:
 
@@ -29,144 +29,8 @@ Well, it would not be wrong if I say, that **Angular2** has bought best of all t
 heavily used in **Angular2** just as **Promises** in **Angular 1.x**. But unlike **Promises**, **Observables** have much bigger role to play. Being based on the **Observer Pattern** they involve much more than extracting **success** and **error**.
 So, let's see some other useful stuff that **Observables** can do for us.
 
-Currently, our components look like this:
 
-**app.component.ts**
-
-```
-import {Component} from '@angular/core';
-import {BookingService} from "./booking-service";
-import {MyTicketService} from "./myTicket-service";
-import {WindowComponent} from "./window.component";
-import {BookShowComponent} from "./book-show.component";
-@Component({
-    selector: 'my-app',
-    template: `
-    <cinema-window></cinema-window>
-    <book-show></book-show>
-    `,
-    directives: [WindowComponent, BookShowComponent],
-    providers: [BookingService, MyTicketService]
-})
-
-export class AppComponent {
-}
-```
-
-**book-show.component.ts**
-
-```
-import {Component} from '@angular/core';
-import {BookingService} from "./booking-service";
-import {MyTicketService} from "./myTicket-service";
-
-@Component({
-    selector: 'book-show',
-    template: `
-    <div>
-        <h1>Welcome to bookshow.com</h1>
-        <span>Welcome User</span>
-        <p>Currently, Number of Tickets available are: {{ticketCount}}</p>
-        <button (click)="bookShow()">Book Ticket</button>
-        <button (click)="showMyTicket()">Show Ticket</button>
-        <div class="box" [hidden]="!dataAvailable">
-            <span>Your Ticket Details:</span>
-            <ul class="li-style">
-            <li>{{ticketData.cinemaName}}</li>
-            <li>{{ticketData.showTime}}</li>
-            <li>{{ticketData.date}}</li>
-            <li>{{ticketData.seatNumber}}</li>
-            <li>{{ticketData.ticketNumber}}</li>
-            </ul>
-        </div>
-    </div>
-    `
-})
-
-export class BookShowComponent {
-    constructor(public bookingService:BookingService, public myTicketService:MyTicketService) {
-    }
-
-    ticketCount = this.bookingService.totalTicketCount;
-    ticketData = {};
-    dataAvailable:boolean = false;
-    errorMessage = '';
-    bookShow = () => {
-        this.bookingService.totalTicketCount = this.bookingService.totalTicketCount - 1;
-        this.ticketCount = this.bookingService.totalTicketCount;
-    };
-    showMyTicket = () => {
-        this.myTicketService.getTicketData()
-            .subscribe(
-            (data) => {
-                this.ticketData = data
-                    this.dataAvailable = true
-            }
-            , (error) => {
-                this.errorMessage = error;
-            }
-        );
-    }
-}
-```
-
-**window.component.ts**
-
-```
-import {Component} from '@angular/core';
-import {BookingService} from "./booking-service";
-import {MyTicketService} from "./myTicket-service";
-
-@Component({
-    selector: 'cinema-window',
-    template: `
-    <div>
-        <h1>ABC Cinemas</h1>
-        <span>Hello Admin</span>
-        <p>Currently, Number of Tickets available are: {{ticketCount}}</p>
-        <button (click)="bookTicket()">Book Ticket</button>
-        <button (click)="showTicket()">Show Ticket</button>
-        <div class="box" [hidden]="!dataAvailable">
-            <span>Your Ticket Details:</span>
-            <ul class="li-style">
-                <li>{{ticketData.cinemaName}}</li>
-                <li>{{ticketData.showTime}}</li>
-                <li>{{ticketData.date}}</li>
-                <li>{{ticketData.seatNumber}}</li>
-                <li>{{ticketData.ticketNumber}}</li>
-            </ul>
-        </div>
-    </div>
-    `
-})
-export class WindowComponent {
-    constructor(public bookingService:BookingService, public myTicketService:MyTicketService) {
-    }
-
-    ticketData = {};
-    dataAvailable:boolean = false;
-    ticketCount = this.bookingService.totalTicketCount;
-    errorMessage = '';
-    bookTicket = () => {
-        this.bookingService.totalTicketCount = this.bookingService.totalTicketCount - 1;
-        this.ticketCount = this.bookingService.totalTicketCount;
-    };
-    showTicket = () => {
-        this.myTicketService.getTicketData()
-            .subscribe(
-            (data) => {
-                this.ticketData = data,
-                    this.dataAvailable = true
-            },
-            (error) => {
-                this.errorMessage = error;
-            }
-        );
-    }
-}
-```
-
- If look at the services [blog](https://namitamalik.github.io/Services-in-Angular2/) you will notice that our `booking-service.ts` looks like:
+If look at the services [blog](https://namitamalik.github.io/Services-in-Angular2/) you will notice that our `booking-service.ts` looks like:
  
 ```
 import {Injectable} from "@angular/core";
@@ -313,5 +177,7 @@ export class WindowComponent {
 ```
 
 After doing the above tweaks, we should now be able to see the available ticket count **real-time** as shown in below:
+
+![Realtime-Blog.gif](https://raw.githubusercontent.com/NamitaMalik/Realtime-Update-in-Angular2/master/assets/Realtime_Blog.gif)
 
 >Note: This is a small demo app to show how to make real time client updates. In a real world app, one will have to get the updated data from the server by using things like socket connections(which is not the agenda of this blog).
