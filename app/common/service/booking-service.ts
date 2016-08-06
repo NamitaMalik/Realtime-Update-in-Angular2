@@ -8,11 +8,6 @@ import {BehaviorSubject} from 'rxjs/Rx';
 
 @Injectable()
 export class BookingService {
-    totalTicketCount:BehaviorSubject<number> = new BehaviorSubject<number>(0);
-
-    constructor() {
-        let ticketNumber:number = 100;
-        this.totalTicketCount.next(ticketNumber);
-    }
+    totalTicketCount:BehaviorSubject<number> = new BehaviorSubject<number>(10);
 
 }

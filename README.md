@@ -17,4 +17,301 @@ See below:
 
 ![services_blog.gif](https://raw.githubusercontent.com/NamitaMalik/Realtime-Update-in-Angular2/master/assets/Services_Blog.gif)
 
+Did you notice the following:
 
+1. Initially, total number of available tickets were 10.
+2. On booking a ticket through cinema window, the number of available tickets became 9, while at bookshow.com, number of available tickets was still 10.
+3. Similarly, after making a booking through bookshow.com, number of available tickets became 8 as correctly displayed on bookshow.com but cinema window still has the booking count as 9.
+
+To avoid such a situation, we need to do something so that our both the components show data consistently. But how?
+
+Well, it would not be wrong if I say, that **Angular2** has bought best of all the worlds together and the simple solution the above problem is **Observables**. We know that **Observables** are being
+heavily used in **Angular2** just as **Promises** in **Angular 1.x**. But unlike **Promises**, **Observables** have much bigger role to play. Being based on the **Observer Pattern** they involve much more than extracting **success** and **error**.
+So, let's see some other useful stuff that **Observables** can do for us.
+
+Currently, our components look like this:
+
+**app.component.ts**
+
+```
+import {Component} from '@angular/core';
+import {BookingService} from "./booking-service";
+import {MyTicketService} from "./myTicket-service";
+import {WindowComponent} from "./window.component";
+import {BookShowComponent} from "./book-show.component";
+@Component({
+    selector: 'my-app',
+    template: `
+    <cinema-window></cinema-window>
+    <book-show></book-show>
+    `,
+    directives: [WindowComponent, BookShowComponent],
+    providers: [BookingService, MyTicketService]
+})
+
+export class AppComponent {
+}
+```
+
+**book-show.component.ts**
+
+```
+import {Component} from '@angular/core';
+import {BookingService} from "./booking-service";
+import {MyTicketService} from "./myTicket-service";
+
+@Component({
+    selector: 'book-show',
+    template: `
+    <div>
+        <h1>Welcome to bookshow.com</h1>
+        <span>Welcome User</span>
+        <p>Currently, Number of Tickets available are: {{ticketCount}}</p>
+        <button (click)="bookShow()">Book Ticket</button>
+        <button (click)="showMyTicket()">Show Ticket</button>
+        <div class="box" [hidden]="!dataAvailable">
+            <span>Your Ticket Details:</span>
+            <ul class="li-style">
+            <li>{{ticketData.cinemaName}}</li>
+            <li>{{ticketData.showTime}}</li>
+            <li>{{ticketData.date}}</li>
+            <li>{{ticketData.seatNumber}}</li>
+            <li>{{ticketData.ticketNumber}}</li>
+            </ul>
+        </div>
+    </div>
+    `
+})
+
+export class BookShowComponent {
+    constructor(public bookingService:BookingService, public myTicketService:MyTicketService) {
+    }
+
+    ticketCount = this.bookingService.totalTicketCount;
+    ticketData = {};
+    dataAvailable:boolean = false;
+    errorMessage = '';
+    bookShow = () => {
+        this.bookingService.totalTicketCount = this.bookingService.totalTicketCount - 1;
+        this.ticketCount = this.bookingService.totalTicketCount;
+    };
+    showMyTicket = () => {
+        this.myTicketService.getTicketData()
+            .subscribe(
+            (data) => {
+                this.ticketData = data
+                    this.dataAvailable = true
+            }
+            , (error) => {
+                this.errorMessage = error;
+            }
+        );
+    }
+}
+```
+
+**window.component.ts**
+
+```
+import {Component} from '@angular/core';
+import {BookingService} from "./booking-service";
+import {MyTicketService} from "./myTicket-service";
+
+@Component({
+    selector: 'cinema-window',
+    template: `
+    <div>
+        <h1>ABC Cinemas</h1>
+        <span>Hello Admin</span>
+        <p>Currently, Number of Tickets available are: {{ticketCount}}</p>
+        <button (click)="bookTicket()">Book Ticket</button>
+        <button (click)="showTicket()">Show Ticket</button>
+        <div class="box" [hidden]="!dataAvailable">
+            <span>Your Ticket Details:</span>
+            <ul class="li-style">
+                <li>{{ticketData.cinemaName}}</li>
+                <li>{{ticketData.showTime}}</li>
+                <li>{{ticketData.date}}</li>
+                <li>{{ticketData.seatNumber}}</li>
+                <li>{{ticketData.ticketNumber}}</li>
+            </ul>
+        </div>
+    </div>
+    `
+})
+export class WindowComponent {
+    constructor(public bookingService:BookingService, public myTicketService:MyTicketService) {
+    }
+
+    ticketData = {};
+    dataAvailable:boolean = false;
+    ticketCount = this.bookingService.totalTicketCount;
+    errorMessage = '';
+    bookTicket = () => {
+        this.bookingService.totalTicketCount = this.bookingService.totalTicketCount - 1;
+        this.ticketCount = this.bookingService.totalTicketCount;
+    };
+    showTicket = () => {
+        this.myTicketService.getTicketData()
+            .subscribe(
+            (data) => {
+                this.ticketData = data,
+                    this.dataAvailable = true
+            },
+            (error) => {
+                this.errorMessage = error;
+            }
+        );
+    }
+}
+```
+
+ If look at the services [blog](https://namitamalik.github.io/Services-in-Angular2/) you will notice that our `booking-service.ts` looks like:
+ 
+```
+import {Injectable} from "@angular/core";
+@Injectable()
+export class BookingService {
+    totalTicketCount:number = 10;
+}
+```
+
+...and this is the place where we need to make the most important change i.e. making the `totalTicketCount` a **subject**.
+
+Well, the above line put up a plethora of questions in front of us so let's try to answer each question one by one:
+
+**Q. What is Subject?**
+
+Ans. **Subject** is a class in **RxJS** library. It inherits both **Observable** and **Observer** therefore we can easily say that a **subject** is both **observer** and **observable**.
+We know that **observers** subscribe to an **observable** and if **subject** is both **observer** and **observable** this means that there would be **observers** subscribing to it and also it subscribing to some other source.
+A **subject**  simply broadcasts values pushed to it, to all the **subscribers** subscribing to it.
+
+**Q. Are there any different implementations of Subject?**
+
+Ans. There are basically 3 different implementation of **Subject** which provide different functionality and can be used on the basis of your use case:
+    
+   a. **ReplaySubject** - Stores all the values that have been pushed. It emits all the items that were emitted by the source, to all the **observers** that **subscribe** to it.
+   b. **AsyncSubject** - It stores the last value and emits it when the sequence is completed.
+   c. **BehaviorSubject** - **BehaviorSubject** is similar to **ReplaySubject** but it stores only the last value published. Also another difference that distinguishes it from **AsyncSubject** and **ReplaySubject** is that it takes default value at the time of initialisation.
+   So an **observer** subscribing to **BehaviorSubject** would receive a value as soon as it subscribes to it.
+   
+**Q. Which one out of the 3 implementations, we are going to use for our use case?**
+
+Ans. We are going to use **BehaviorSubject** for our case.
+
+**Q. Can we see some action now?**
+Ans. Yes Sure, here we go.....
+
+So, let's make `totalTicketCount` a **BehaviorSubject** as given below:
+
+```
+totalTicketCount:BehaviorSubject<number> = new BehaviorSubject<number>(10);
+```
+
+After making this tweak and importing `BehaviorSubject`, our `booking-service.ts` now looks as:
+
+```
+   import { Injectable } from '@angular/core';
+   import {BehaviorSubject} from 'rxjs/Rx';
+   
+   @Injectable()
+   export class BookingService {
+       totalTicketCount:BehaviorSubject<number> = new BehaviorSubject<number>(10);
+   
+   }
+```
+
+Now, let's make some tweaks in our `book-show.component.ts` and `window.component.ts` and these should be:
+
+1. We first need to subscribe to our `totalTicketCount` subject so that we can start receiving values from it:
+
+```
+    constructor(private _bookingService:BookingService) {
+        this._bookingService.totalTicketCount.subscribe(totalTicketCount => {
+            this.ticketCount = totalTicketCount
+        });
+    }
+```
+   
+2. Once a user makes a booking we need to update the `totalTicketCount`:
+ 
+ ```
+     bookShow = () => {
+         let ticketCount = this.ticketCount - 1;
+         this._bookingService.totalTicketCount.next(ticketCount);
+     }
+```
+We have updated the `totalTicketCount` by notifying the `observer` about the next value.
+
+After doing the above tweaks in both `book-show.component.ts` and `window.component.ts`, they would look like:
+
+**book-show.component.ts**
+
+```
+import { Component } from '@angular/core';
+import {BookingService} from "../common/service/booking-service";
+
+@Component({
+    selector: 'book-show',
+    template: `
+    <div>
+        <h1>Welcome to bookshow.com</h1>
+        <span>Welcome User</span>
+        <p>Currently, Number of Tickets available are: {{ticketCount}}</p>
+        <button (click)="bookShow()">Book Ticket</button>
+    </div>
+    `
+})
+
+export class BookShowComponent {
+    ticketCount:number = 0;
+    constructor(private _bookingService:BookingService) {
+        this._bookingService.totalTicketCount.subscribe(totalTicketCount => {
+            this.ticketCount = totalTicketCount
+        });
+    }
+
+    bookShow = () => {
+        let ticketCount = this.ticketCount - 1;
+        this._bookingService.totalTicketCount.next(ticketCount);
+    }
+        ;
+}
+
+```
+
+**window.component.ts**
+
+```
+import { Component } from '@angular/core';
+import {BookingService} from "../common/service/booking-service";
+
+@Component({
+    selector: 'cinema-window',
+    template: `
+    <div>
+        <h1>ABC Cinemas</h1>
+        <span>Hello Admin</span>
+        <p>Currently, Number of Tickets available are: {{ticketCount}}</p>
+        <button (click)="bookTicket()">Book Ticket</button>
+    </div>
+    `
+})
+
+export class WindowComponent {
+    ticketCount:number = 0;
+    constructor(private _bookingService:BookingService) {
+        this._bookingService.totalTicketCount.subscribe(totalTicketCount => {
+            this.ticketCount = totalTicketCount
+        });
+    }
+    bookTicket = () => {
+        this.ticketCount = this.ticketCount - 1;
+        this._bookingService.totalTicketCount.next(this.ticketCount);
+    };
+}
+```
+
+After doing the above tweaks, we should now be able to see the available ticket count **real-time** as shown in below:
+
+>Note: This is a small demo app to show how to make real time client updates. In a real world app, one will have to get the updated data from the server by using things like socket connections(which is not the agenda of this blog).
