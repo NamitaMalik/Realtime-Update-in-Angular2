@@ -1,7 +1,6 @@
 # Realtime Update in Angular2
 
-Many times we encounter a situation when we need to update our view **real time**. By **real time** I mean that as soon as a component changes the value of a particular variable,
-it should get updated at all other components which are using that variable.
+Many a times we encounter a situation where we need to update our view **real time**. By **real time** I mean that as soon as a component changes the value of a particular variable, all other components should get the updated value.
 
 Let's get deeper into it by the simple example. In of my earlier [blogs](https://namitamalik.github.io/Services-in-Angular2/) on **services in Angular2**, we had taken an example of a cinema ticket booking scenario where we had:
 
@@ -10,8 +9,8 @@ Let's get deeper into it by the simple example. In of my earlier [blogs](https:/
 3. `WindowComponent` - Component accessed to make booking through cinema window.
 4. `BookingService` - A service accessed by both `WindowComponent` and `BookShowComponent` to get the number of tickets available.
 
-Above components were then joined together to make a simple `app` where a user was able to book movie ticket and after each booking, the available ticket count would get updated.
-But, this small `app` had a serious flaw - even though, after each booking, number of tickets then available were getting updated, but one component would not know that the other component has updated the ticket till a booking request was made.
+Above components were then joined together to make a simple `app`. Using this app a user was able to book movie ticket and after each booking, the available ticket count would get updated.
+But, this small `app` had a serious flaw - one component would not know that the other component has updated the ticket till a booking request was made.
 
 See below:
 
@@ -23,7 +22,7 @@ Did you notice the following:
 2. On booking a ticket through cinema window, the number of available tickets became 9, while at bookshow.com, number of available tickets was still 10.
 3. Similarly, after making a booking through bookshow.com, number of available tickets became 8 as correctly displayed on bookshow.com but cinema window still has the booking count as 9.
 
-To avoid such a situation, we need to do something so that our both the components show data consistently. But how?
+To avoid such a situation, we need to do something so that both the components show data consistently. But how?
 
 Well, it would not be wrong if I say, that **Angular2** has bought best of all the worlds together and the simple solution the above problem is **Observables**. We know that **Observables** are being
 heavily used in **Angular2** just as **Promises** in **Angular 1.x**. But unlike **Promises**, **Observables** have much bigger role to play. Being based on the **Observer Pattern** they involve much more than extracting **success** and **error**.
