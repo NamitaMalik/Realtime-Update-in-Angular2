@@ -1,9 +1,9 @@
 # Realtime Update in Angular2
 
-Many times we encounter a situation when we need to update our view **real time**. By **real time** I mean that as soon as a component changes the value of a particular variable,
+Many a times we encounter a situation when we need to update our view **real time**. By **real time** I mean that as soon as a component changes the value of a particular variable,
 it should get updated at all other components which are using that variable.
 
-Let's get deeper into it by the simple example. In of my earlier [blogs](https://namitamalik.github.io/) on **[Services in Angular2]((https://namitamalik.github.io/Services-in-Angular2/))**, we had taken an example of a cinema ticket booking scenario where we had:
+Let's get deeper into it by the simple example. In of my earlier [blogs](https://namitamalik.github.io/) on [**Services in Angular2**](https://namitamalik.github.io/Services-in-Angular2/), we had taken an example of a cinema ticket booking scenario where we had:
 
 1. `AppComponent` - Parent component of the entire application. Included 2 child components.
 2. `BookShowComponent` - Component used to make booking through web application e.g. bookshow.com.
