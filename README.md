@@ -52,10 +52,10 @@ A **subject**  simply broadcasts values pushed to it, to all the **subscribers**
 
 **Q. Are there any different implementations of Subject?**
 
-Ans. There are basically 3 different implementation of **Subject** which provide different functionality and can be used on the basis of your use case:
-    1. **ReplaySubject** - Stores all the values that have been pushed. It emits all the items that were emitted by the source, to all the **observers** that **subscribe** to it.
-    2. **AsyncSubject** - It stores the last value and emits it when the sequence is completed.
-    3. **BehaviorSubject** - **BehaviorSubject** is similar to **ReplaySubject** but it stores only the last value published. Also another difference that distinguishes it from **AsyncSubject** and **ReplaySubject** is that it takes default value at the time of initialisation.
+Ans. There are basically 3 different implementation of **Subject** which provide different functionality and can be used on the basis of your use case
+1. **ReplaySubject** - Stores all the values that have been pushed. It emits all the items that were emitted by the source, to all the **observers** that **subscribe** to it.
+2. **AsyncSubject** - It stores the last value and emits it when the sequence is completed.
+3. **BehaviorSubject** - **BehaviorSubject** is similar to **ReplaySubject** but it stores only the last value published. Also another difference that distinguishes it from **AsyncSubject** and **ReplaySubject** is that it takes default value at the time of initialisation.
 So an **observer** subscribing to **BehaviorSubject** would receive a value as soon as it subscribes to it.
    
 **Q. Which one out of the 3 implementations, we are going to use for our use case?**
