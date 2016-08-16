@@ -44,15 +44,13 @@ export class BookingService {
 
 Well, the above line put up a plethora of questions in front of us so let's try to answer each question one by one:
 
-**Q. What is Subject?**
-
-Ans. **Subject** is a class in **RxJS** library. It inherits both **Observable** and **Observer** therefore we can easily say that a **subject** is both **observer** and **observable**.
+####Q. What is Subject?
+**Ans:** **Subject** is a class in **RxJS** library. It inherits both **Observable** and **Observer** therefore we can easily say that a **subject** is both **observer** and **observable**.
 We know that **observers** subscribe to an **observable** and if **subject** is both **observer** and **observable** this means that there would be **observers** subscribing to it and also it subscribing to some other source.
 A **subject**  simply broadcasts values pushed to it, to all the **subscribers** subscribing to it.
 
-**Q. Are there any different implementations of Subject?**
-
-Ans. There are basically 3 different implementation of **Subject** which provide different functionality and can be used on the basis of your use case:
+####Q. Are there any different implementations of Subject?
+**Ans:** There are basically 3 different implementation of **Subject** which provide different functionality and can be used on the basis of different use case:
 
 1. **ReplaySubject** - Stores all the values that have been pushed. It emits all the items that were emitted by the source, to all the **observers** that **subscribe** to it.
 2. **AsyncSubject** - It stores the last value and emits it when the sequence is completed.
