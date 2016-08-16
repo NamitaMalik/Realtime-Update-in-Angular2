@@ -1,6 +1,6 @@
 # Realtime Update in Angular2
 
-Many a times we encounter a situation when we need to update our view **real time**. By **real time** I mean that as soon as a component changes the value of a particular variable,
+Many a time we encounter a situation when we need to update our view **real time**. By **real time** I mean that as soon as a component changes the value of a particular variable,
 all other components should get the updated value.
 
 Let's get deeper into it by the simple example. In of my earlier [blogs](https://namitamalik.github.io/) on [**Services in Angular2**](https://namitamalik.github.io/Services-in-Angular2/), 
@@ -49,7 +49,7 @@ Well, the above line put up a plethora of questions in front of us so let's try 
 **Ans:** **Subject** is a class in **RxJS** library. It inherits both **Observable** and **Observer** therefore we can easily say that a **subject** is both **observer** and **observable**.
 We know that **observers** subscribe to an **observable** and if **subject** is both **observer** and **observable** this means that there would be **observers** subscribing to it and 
 also it subscribing to some other source. A **subject**  simply broadcasts values pushed to it, to all the **subscribers** subscribing to it. 
-In real life, shopkeeper can be taken as an example of a Subject, A shopkeeper is both buyer and a seller. He buys products from factory and sells product to his customers.
+In real life, shopkeeper can be taken as an example of a Subject, A shopkeeper is both buyer and a seller. He buys products from a factory and sells products to his customers.
 
 ####Q. Are there any different implementations of Subject?
 **Ans:** There are basically 3 different implementation of **Subject** which provide different functionality and can be used on the basis of different use case:
