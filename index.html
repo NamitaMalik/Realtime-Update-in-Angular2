@@ -12,7 +12,7 @@
   <body>
     <section class="page-header">
       <h1 class="project-name">Realtime Update in Angular2</h1>
-      <h2 class="project-tagline">This blog discusses realtime update in Angular2</h2>
+      <h2 class="project-tagline">This blog discusses realtime update in Angular2.</h2>
       <a href="https://github.com/NamitaMalik/Realtime-Update-in-Angular2" class="btn">View on GitHub</a>
       <a href="https://github.com/NamitaMalik/Realtime-Update-in-Angular2/zipball/master" class="btn">Download .zip</a>
       <a href="https://github.com/NamitaMalik/Realtime-Update-in-Angular2/tarball/master" class="btn">Download .tar.gz</a>
@@ -56,7 +56,7 @@ But, this small <code>app</code> had a serious flaw - <code>one component would 
 
 <p>To avoid such a situation, we need to do something so that both the components show data consistently. But how?</p>
 
-<p>Well, it would not be wrong if I say, that <strong>Angular2</strong> has bought best of all the worlds together and the simple solution the above problem is <strong>Observables</strong>. We know that 
+<p>Well, it would not be wrong if I say, that <strong>Angular2</strong> has bought best of all the worlds together and simple solution to the above problem is <strong>Observables</strong>. We know that 
 <strong>Observables</strong> are being heavily used in <strong>Angular2</strong> just as <strong>Promises</strong> in <strong>Angular 1.x</strong>. But unlike <strong>Promises</strong>, <strong>Observables</strong> have much bigger role to play. Being 
 based on the <strong>Observer Pattern</strong> they involve much more than extracting <strong>success</strong> and <strong>error</strong>. So, let's see some other useful stuff that <strong>Observables</strong> can do for us.</p>
 
@@ -78,7 +78,7 @@ based on the <strong>Observer Pattern</strong> they involve much more than extra
 <p><strong>Ans:</strong> <strong>Subject</strong> is a class in <strong>RxJS</strong> library. It inherits both <strong>Observable</strong> and <strong>Observer</strong> therefore we can easily say that a <strong>subject</strong> is both <strong>observer</strong> and <strong>observable</strong>.
 We know that <strong>observers</strong> subscribe to an <strong>observable</strong> and if <strong>subject</strong> is both <strong>observer</strong> and <strong>observable</strong> this means that there would be <strong>observers</strong> subscribing to it and 
 also it subscribing to some other source. A <strong>subject</strong>  simply broadcasts values pushed to it, to all the <strong>subscribers</strong> subscribing to it. 
-In real life, shopkeeper can be taken as an example of a Subject, A shopkeeper is both buyer and a seller. He buys products from a factory and sells products to his customers.</p>
+In real life, shopkeeper can be taken as an example of a <strong>subject</strong>, a shopkeeper is both buyer and a seller. He buys products from a factory and sells products to his customers.</p>
 
 <h4>
 <a id="q-are-there-any-different-implementations-of-subject" class="anchor" href="#q-are-there-any-different-implementations-of-subject" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Q. Are there any different implementations of Subject?</h4>
@@ -96,7 +96,7 @@ So an <strong>observer</strong> subscribing to <strong>BehaviorSubject</strong> 
 </ol>
 
 <h4>
-<a id="q-which-one-out-of-the-3-implementations-we-are-going-to-use-for-our-use-case" class="anchor" href="#q-which-one-out-of-the-3-implementations-we-are-going-to-use-for-our-use-case" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Q. Which one out of the 3 implementations, we are going to use for our use case?**</h4>
+<a id="q-which-one-out-of-the-3-implementations-we-are-going-to-use" class="anchor" href="#q-which-one-out-of-the-3-implementations-we-are-going-to-use" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Q. Which one out of the 3 implementations, we are going to use?</h4>
 
 <p><strong>Ans:</strong> We are going to use <strong>BehaviorSubject</strong> for our case.</p>
 
@@ -123,23 +123,24 @@ So an <strong>observer</strong> subscribing to <strong>BehaviorSubject</strong> 
 <p>Now, let's make some tweaks in our <code>book-show.component.ts</code> and <code>window.component.ts</code> and these should be:</p>
 
 <ol>
-<li>We first need to subscribe to our <code>totalTicketCount</code> subject so that we can start receiving values from it:</li>
-</ol>
+<li>
+<p>We first need to subscribe to our <code>totalTicketCount</code> subject so that we can start receiving values from it:</p>
 
 <div class="highlight highlight-source-ts"><pre>constructor(private _bookingService:BookingService) {
     <span class="pl-c1">this</span>._bookingService.totalTicketCount.subscribe(totalTicketCount <span class="pl-k">=&gt;</span> {
         <span class="pl-c1">this</span>.ticketCount <span class="pl-k">=</span> totalTicketCount
     });
 }</pre></div>
-
-<ol>
-<li>Once a user makes a booking we need to update the <code>totalTicketCount</code>:</li>
-</ol>
+</li>
+<li>
+<p>Once a user makes a booking we need to update the <code>totalTicketCount</code>:</p>
 
 <div class="highlight highlight-source-ts"><pre>bookShow <span class="pl-k">=</span> () <span class="pl-k">=&gt;</span> {
     <span class="pl-k">let</span> <span class="pl-v">ticketCount</span> = <span class="pl-c1">this</span>.ticketCount <span class="pl-k">-</span> <span class="pl-c1">1</span>;
     <span class="pl-c1">this</span>._bookingService.totalTicketCount.next(ticketCount);
 }</pre></div>
+</li>
+</ol>
 
 <p>We have updated the <code>totalTicketCount</code> by notifying the <code>observer</code> about the next value.</p>
 
