@@ -26,7 +26,7 @@ Did you notice the following:
 
 To avoid such a situation, we need to do something so that both the components show data consistently. But how?
 
-Well, it would not be wrong if I say, that **Angular2** has bought best of all the worlds together and the simple solution the above problem is **Observables**. We know that 
+Well, it would not be wrong if I say, that **Angular2** has bought best of all the worlds together and simple solution to the above problem is **Observables**. We know that 
 **Observables** are being heavily used in **Angular2** just as **Promises** in **Angular 1.x**. But unlike **Promises**, **Observables** have much bigger role to play. Being 
 based on the **Observer Pattern** they involve much more than extracting **success** and **error**. So, let's see some other useful stuff that **Observables** can do for us.
 
@@ -49,7 +49,7 @@ Well, the above line put up a plethora of questions in front of us so let's try 
 **Ans:** **Subject** is a class in **RxJS** library. It inherits both **Observable** and **Observer** therefore we can easily say that a **subject** is both **observer** and **observable**.
 We know that **observers** subscribe to an **observable** and if **subject** is both **observer** and **observable** this means that there would be **observers** subscribing to it and 
 also it subscribing to some other source. A **subject**  simply broadcasts values pushed to it, to all the **subscribers** subscribing to it. 
-In real life, shopkeeper can be taken as an example of a Subject, A shopkeeper is both buyer and a seller. He buys products from a factory and sells products to his customers.
+In real life, shopkeeper can be taken as an example of a **subject**, a shopkeeper is both buyer and a seller. He buys products from a factory and sells products to his customers.
 
 ####Q. Are there any different implementations of Subject?
 **Ans:** There are basically 3 different implementation of **Subject** which provide different functionality and can be used on the basis of different use case:
@@ -59,7 +59,7 @@ In real life, shopkeeper can be taken as an example of a Subject, A shopkeeper i
 3. **BehaviorSubject** - **BehaviorSubject** is similar to **ReplaySubject** but it stores only the last value published. Also another difference that distinguishes it from **AsyncSubject** and **ReplaySubject** is that it takes default value at the time of initialisation.
 So an **observer** subscribing to **BehaviorSubject** would receive a value as soon as it subscribes to it.
    
-####Q. Which one out of the 3 implementations, we are going to use for our use case?**
+####Q. Which one out of the 3 implementations, we are going to use?
 **Ans:** We are going to use **BehaviorSubject** for our case.
 
 ####Q. Can we see some action now?**
@@ -87,21 +87,21 @@ export class BookingService {
 Now, let's make some tweaks in our `book-show.component.ts` and `window.component.ts` and these should be:
 
 1. We first need to subscribe to our `totalTicketCount` subject so that we can start receiving values from it:
-```TypeScript
-constructor(private _bookingService:BookingService) {
-    this._bookingService.totalTicketCount.subscribe(totalTicketCount => {
-        this.ticketCount = totalTicketCount
-    });
-}
-```
+    ```TypeScript
+    constructor(private _bookingService:BookingService) {
+        this._bookingService.totalTicketCount.subscribe(totalTicketCount => {
+            this.ticketCount = totalTicketCount
+        });
+    }
+    ```
 
 2. Once a user makes a booking we need to update the `totalTicketCount`:
-```TypeScript
-bookShow = () => {
-    let ticketCount = this.ticketCount - 1;
-    this._bookingService.totalTicketCount.next(ticketCount);
-}
-```
+    ```TypeScript
+    bookShow = () => {
+        let ticketCount = this.ticketCount - 1;
+        this._bookingService.totalTicketCount.next(ticketCount);
+    }
+    ```
 
 We have updated the `totalTicketCount` by notifying the `observer` about the next value.
 
